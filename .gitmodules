@@ -1,0 +1,3 @@
+[submodule "provadis-typst-template"]
+	path = provadis-typst-template
+	url = https://github.com/lbsekr/provadis-typst-template.git
