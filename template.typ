@@ -1,11 +1,10 @@
-#import "@preview/glossarium:0.3.0": print-glossary, make-glossary
+#import "@preview/glossarium:0.4.1": print-glossary, make-glossary
 
 #show: make-glossary
 
-
 #let Template(
   language: "de",
-  title: "Analyse des Energieverbrauchs von Elektro- und Verbrennungsfahrzeugen unter Verwendung von ISO 23795-1:2022",
+  title: "Analyse des Energieverbrauchs von Elektro- und Verbrennungsfahrzeugen unter Verwendung der ISO 23795-1:2022",
   authors: (
     (
       name: "Marius Lieb",
@@ -27,12 +26,12 @@
     von
   ],
   first_appraiser: "Dr. Houssam Jedidi",
-  second_appraiser: "Dr. ABC",
-  supervisor: "Dr. Jedidi",
+  second_appraiser: "Prof. Dr. Oliver Lade",
+  supervisor: "Ralf Grigutsch",
   bib: none,
   appendix: (),
   location: "Ulm",
-  deadline: "15.03.2024",
+  deadline: "31.07.2024",
   declaration_of_independence: true, // 🇺🇸🇺🇸🇺🇸🇺🇸🦅🦅🦅
   confidental_clause: false,
   glossary_entries: (),
@@ -117,7 +116,7 @@
     v(2em)
 
     align(center,
-      text(1.5em, title)
+      text(1.5em, title, weight: "bold")
     )
 
     v(1em)
