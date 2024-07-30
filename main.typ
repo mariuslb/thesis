@@ -1,10 +1,16 @@
-#import "template.typ": Template
+#import "template.typ": Template, code
 #import "@preview/glossarium:0.3.0": gls
 #let translations = json("translations.json").at("de")
+
 
 #show: Template.with(
   bib: arguments("sources.bib", style: "frontiers"), 
   appendix: (
+    [
+      #heading("Struktur einer Fahrtaufzeichnung",supplement: [#translations.appendix])
+      #include "code-anhang/str-data.typ"
+
+    ],
     [
       #heading("Wichtiger Anhang",supplement: [#translations.appendix])
       #lorem(100)
@@ -42,65 +48,17 @@
 
 #include "content/04-analyse.typ"
 
+#include "content/05-ergebnisse.typ"
 
-= Diskussion
-
-== Interpretation der Ergebnisse
-
-== Limitation der Methodik
- 
-== Einordung in bestehende Forschung
-
-== Implikation für den Praxisfall
-
-== Selbstkritik und Limitationen der Arbeit
-
-= Fazit und Ausblick
-
-== Zusammenfassung der zentralen Erkenntnisse
-
-== Praktische Implikationen für Stakeholder
-
-== Vorschläge für zukünftige Forschungen
-
-= Kein Teil
-
-= Einleitung
-#lorem(15)
-
-Wenn ich @oidc zum ersten mal erwähne wird es ausgeschrieben. \
-Beim zweiten Mal wird @oidc nur abgekürzt. 
-
-Übrigens gibt es das @haus
-
-#pagebreak()
-
-= Grundlagen
-#lorem(100)
-== Unterpunkt
-#lorem(100)
-#figure(
-  image("img/provadis.png", width: 80%),
-  caption: [A curious figure.],
-) <glacier>
-#pagebreak()
-
-== Unterpunkt
+#include "content/06-diskussion.typ"
 
 
+// = Kein Teil
 
-#lorem(100)
-=== Unter-Unterpunkt
-#lorem(100)
-=== Unter-Unterpunkt
-#pagebreak()
+// = Einleitung
+// #lorem(15)
 
-== Unterpunkt
-#lorem(100)
+// Wenn ich @oidc zum ersten mal erwähne wird es ausgeschrieben. \
+// Beim zweiten Mal wird @oidc nur abgekürzt. 
 
-=== Unter-Unterpunkt
-#lorem(100)
-
-= Zusammenfassung
-#lorem(100)
-
+// Übrigens gibt es das @haus

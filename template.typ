@@ -2,6 +2,17 @@
 
 #show: make-glossary
 
+#let code_identifier =  "code"
+
+#let code(body,caption: "",supplement: "") = {
+  figure(
+    body,
+    kind: code_identifier,
+    caption: caption,
+    supplement: supplement
+  )
+}
+
 #let Template(
   language: "de",
   title: "Analyse des Energieverbrauchs von Elektro- und Verbrennungsfahrzeugen unter Verwendung der ISO 23795-1:2022",
@@ -13,17 +24,19 @@
       matrikel: "D343"
     ),
   ),
-  logo: image("img/t-systems.png", width: 120pt),
-  abstract: lorem(100),
+  logo: image("img/t-systems.png", width: 180pt, height: 2.06cm, fit: "contain"),
+  abstract: include "abstract.typ",
+  //acknowledgement: "",
   document-type: "Bachelorarbeit",
   reason: [
     zur Erlangung des akademischen Grades \
-    ’Bachelor of Science’  B.Sc.\ 
-    im Studiengang Informatik \ \
-    vorgelegt dem Fachbereich \
-    Informatik und Wirtschaftsinformatik \ der \
+    ’Bachelor of Science’ B.Sc. 
+    im Studiengang Informatik
+  ],
+  submitted_to: [
+    vorgelegt dem Fachbereich Informatik und Wirtschaftsinformatik der \
     Provadis School of International Management and Technology \
-    von
+    von \
   ],
   first_appraiser: "Dr. Houssam Jedidi",
   second_appraiser: "Prof. Dr. Oliver Lade",
@@ -63,9 +76,56 @@
      
     }
 
+    // Man könnte die ganzen Tables wsl. abstrahieren. Aber kein Bock
+    let table_of_code()  = {
+      locate(loc => {
+        if counter(figure.where(kind: code_identifier)).final(loc).at(0) > 0 {
+            context {
+              pagebreak()
+          
+              show outline: set heading(
+                outlined: true,
+                supplement:  [#translations.vorwort]
+              )
+            
+              outline(
+                title: translations.codeausschnittverzeichnis,  
+                depth: 3,
+                indent: true,
+                target: figure.where(kind: code_identifier)
+              ) 
+            }
+
+        }
+      })
+    }
+
+    let table_of_tables()  = {
+      locate(loc => {
+        if counter(figure.where(kind: table)).final(loc).at(0) > 0 {
+           context {
+              pagebreak()
+          
+              show outline: set heading(
+                outlined: true,
+                supplement:  [#translations.vorwort]
+              )
+
+              outline(
+                title: translations.tabellenverzeichnis,  
+                depth: 3,
+                indent: true,
+                target: figure.where(kind: table)
+              ) 
+            }
+          }
+        }
+      )
+    }
+
     let table_of_figures() = {
       locate(loc => {
-        if counter(figure).final(loc).at(0) > 0 {
+        if counter(figure.where(kind: image)).final(loc).at(0) > 0 {
           context {
             if show_lists_after_content {
               pagebreak()
@@ -86,6 +146,14 @@
       })
     }
 
+    let lists = [
+      #table_of_figures()
+      #table_of_code()
+      #table_of_tables()
+      #glossary()
+      #abbreviations()
+    ]
+
     set document(author: authors.map(a => a.name), title: title)
     set text(font: "Times New Roman", lang: language, weight: 500, size: 12pt,)
     set heading(numbering: "1.1")
@@ -103,27 +171,40 @@
       )
     )
 
-    grid(
-      columns: (1fr,1fr),
-      align(left ,image("img/provadis.png", width: 120pt)),
-      align(right,logo),
+    place(
+      top,
+      float: false,
+      clearance: 0em,
+        grid(
+        columns: (1fr,1fr),
+        align(left ,image("img/provadis.png", height: 2.06cm)),
+        align(right,logo),
+      )
     )
 
-    v(2em)
+    v(11em)
 
-    align(center, text(1.25em, weight: 600, document-type)) 
-
-    v(2em)
-
-    align(center,
-      text(1.5em, title, weight: "bold")
-    )
+    align(center, text(1.1em,document-type))
 
     v(1em)
 
-    set par(justify: true, leading: 1em)
+    set par(leading: 1em)
+    align(center,
+      text(14pt, weight: 600, title)
+    )
+
+    v(2.5cm)
+
+    set par(justify: true, leading: 1.5em)
     align(center, 
-      text(1.25em, reason),
+      text(1.1em, reason),
+    ) 
+
+    v(1cm)
+    set par(justify: true, leading: 1em)
+
+    align(center, 
+      text(1.1em, submitted_to),
     ) 
     
     v(2em)
@@ -132,7 +213,7 @@
       center,
       grid(
         ..authors.map(author => align(center)[
-          *#author.name* 
+          #author.name 
 
           #author.matrikel 
 
@@ -147,36 +228,50 @@
       )
     )
 
-    v(2.4fr)
-    grid(
-      columns: (auto, auto),
-      rows: (auto, auto),
-      row-gutter: 15pt,
-      column-gutter: 15pt,
-      [#translations.erstgutachter:],
-      [#first_appraiser],
-      ..({if second_appraiser != none {
-              (
-                [#translations.zweitgutachter:],
-                [#second_appraiser]
-              )
-        }}
-      ),    [#translations.betreuung:],
-      [#supervisor],
-      [#translations.endeDerBearbeitungsfrist:],
-      [#deadline]
+    place(
+      bottom + left,
+      grid(
+        columns: (auto, auto),
+        rows: (auto, auto),
+        row-gutter: 15pt,
+        column-gutter: 15pt,
+        [#translations.erstgutachter:],
+        [#first_appraiser],
+        ..({if second_appraiser != none {
+                (
+                  [#translations.zweitgutachter:],
+                  [#second_appraiser]
+                )
+          }}
+        ),    [#translations.betreuung:],
+        [#supervisor],
+        [#translations.endeDerBearbeitungsfrist:],
+        [#deadline],
+        v(1em)
+      )
     )
+    
 
 
-    v(.5fr)
+  
     // Workaroung um Monate in der ausgewählte Sprache (deutsch,english) anzuzeigen, bis Typst es out-of-the-box unterstüzt
-    text(
-      [
-        Frankfurt am Main, #translations.meta.monatZeitPrefix #translations.monate.at(datetime.today().display("[month repr:long]")) #datetime.today().display("[year]")
-      ]
-    )
-    v(.5fr)
+    // text(
+    //   [
+    //     Frankfurt am Main, #translations.meta.monatZeitPrefix #translations.monate.at(datetime.today().display("[month repr:long]")) #datetime.today().display("[year]")
+    //   ]
+    // )
+    // v(.5fr)
+
+    // if type(acknowledgement) == "content" or type(acknowledgement) == "string" {
+    //   pagebreak()
+    //   place(
+    //     center + horizon,
+    //     text(acknowledgement, style: "italic", size: 14pt)
+    //   )
+    // }
+
     counter(page).update(0)
+
     // -----------------
     //  PRE-AMBEL STUFF
     // -----------------
@@ -207,10 +302,10 @@
         )
       },
       margin: (
-        top: 2cm,
+        top: 3cm,
         right: 2cm,
-        left: 3.5cm,
-        bottom: 1cm
+        left: 3cm,
+        bottom: 2cm
       ),
       numbering: "i",
       number-align: top + right
@@ -231,10 +326,24 @@
       }
     }
 
+    if type(abstract) == "content" or type(abstract) == "string" {
+      heading(translations.abstract, outlined: false, numbering: none,supplement: translations.vorwort)
+      v(1em)
+
+      abstract
+      pagebreak()
+    }
+
+    // if type(preface) == "content" or type(preface) == "string" {
+    //   heading(translations.vorwort, outlined: false, numbering: none,supplement: translations.vorwort)
+    //   v(1em)
+
+    //   preface
+    //   pagebreak()
+    // }
+
     if not show_lists_after_content {
-      table_of_figures()
-      glossary()
-      abbreviations()
+      lists
     }
     
     set block(spacing: .65em)
@@ -282,20 +391,18 @@
 
 
     if show_lists_after_content {
-        table_of_figures()
-        glossary()
-        abbreviations()
+      lists
     }
 
-    
+
     // Main Body Context
     context {
       // Main body
       counter(page).update(0)
       set page(numbering: "1")
-      set par(justify: true, leading: 1.1em) 
+      set par(justify: true, leading: 1.1em)
       set heading(supplement: [#translations.kapitel])
-      set block(spacing: 1.8em) //original: 1.2em, below param added
+      set block(spacing: 1.8em) //original 1.2em
       set heading(supplement: [#translations.kapitel])
       show heading: it => block(it,below: 1.1em)
 
@@ -357,7 +464,7 @@
           set heading(numbering: none)
           heading("Ehrenwörtliche Erklärung", outlined: false)
           text(lang: "de", 
-            "Hiermit bestätige ich, dass ich die vorliegende Arbeit persönlich und selbständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel verwendet habe. Alle Stel-len, die wörtlich oder sinngemäß anderen Quellen entnommen wurden, sind als solche kennt-lich gemacht. Die Zeichnungen, Abbildungen und Tabellen in dieser Arbeit sind von mir selbst erstellt oder wurden mit einem entsprechenden Quellennachweis versehen. Diese Arbeit wurde weder in gleicher noch in ähnlicher Form von mir an anderen Hochschulen zur Erlangung eines akademischen Abschlusses eingereicht."
+            "Hiermit bestätige ich, dass ich die vorliegende Arbeit persönlich und selbständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel verwendet habe. Alle Stellen, die wörtlich oder sinngemäß anderen Quellen entnommen wurden, sind als solche kennt-lich gemacht. Die Zeichnungen, Abbildungen und Tabellen in dieser Arbeit sind von mir selbst erstellt oder wurden mit einem entsprechenden Quellennachweis versehen. Diese Arbeit wurde weder in gleicher noch in ähnlicher Form von mir an anderen Hochschulen zur Erlangung eines akademischen Abschlusses eingereicht."
           )
 
           v(8%)

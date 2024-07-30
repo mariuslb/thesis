@@ -1,17 +1,27 @@
 = Methodik
 
-== Datenerhebung (Aufzeichnungen, Testbedingungen, Fahrerverhalten)
+== Datenerhebung
 
-In diesem Kapitel wird erläutert wie reale Fahrdaten erhoben werden, die in einem 
-darauffolgenden Schritt aggregiert und analysiert werden. Dafür wurden im März 2024 
-Fahrten mit einem Elektrofahrzeug (Opel Mokka E) und einem Verbrennerfahrzeug (VW Golf 8) 
-aufgezeichnet. Diese Datensätze sollen es ermöglichen, eine Grundlage zu schaffen, anhand 
-dessen mit  Methoden der @datascience die Hypothesen beantwortet werden können.
+In diesem Kapitel wird erläutert wie Fahrdaten erhoben werden, die in einem 
+darauffolgenden Schritt aggregiert und analysiert werden, um die Aussagen der Hypothesen H1 und H2 anhanddessen zu bewerten. 
+
+=== Zeitliche und räumliche Abgrenzung
+
+Im Zeitraum von 4. - 6. März 2024 wurden in Hamburg
+Fahrten mit einem Elektrofahrzeug und einem Verbrennerfahrzeug 
+aufgezeichnet. Dafür wurde eine vordefinierte Route mit gleichem Start- und Endpunkt gewählt, welche bei parallelem Start von beiden Autos mehrfach pro Tag abgefahren und damit aufgezeichnet wurde.
+
+#figure(
+  image("../img/map.png", width: 80%),
+  caption: [Route der Vergleichsfahrten in Hamburg],
+) 
 
 === Testfahrzeuge
 
-Für die Aufzeichnung der Fahrdaten wurden zwei Fahrzeuge aus der Kompaktklasse verwendet, welche mit folgenden 
-Eigenschaften spezifiziert sind:
+Für die Vergleichsfahrten sind zwei Kompaktklassenfahrzeuge ausgewählt worden, jeweils ein Elektrofahrzeug und ein Verbrennerfahrzeug. Da dies bei einem Mietwagenanbieter erfolgte, war bis vor Mietbeginn nicht genau festgelegt, welches Fahrzeugmodell zur Verfügung stehen würde. Bei den schlussendlich zur Verfügung stehenden Fahrzeugen handelt es sich um einen Opel Mokka E und einen VW Golf 8.
+
+Die für die Aggregation mithilfe der ISO 23795-1:2022 bzw. des LCMM-Systems nötigen technischen Datenfelder der jeweiligen Fahrzeuge sind in der folgenden Tabelle aufgeführt:
+
 
 #figure(
   caption: figure.caption(
@@ -19,28 +29,29 @@ Eigenschaften spezifiziert sind:
     [Übersicht über Fahrzeuge]
   ),
 table(
-  columns: (30%, 35%, 35%),
+  columns: (40%, 30%, 30%),
   inset: 10pt,
   table.header( 
     [], [*Opel Mokka E*], [*VW Golf 8*]
     ),
-    [*Treibstoff*], [], [],
-    [*Masse*], [], [],
-    [*Luftwiderstandskoeffizient*], [], [],
-    [*Querschnittsfläche*], [], [],
-    [*Effizienz*], [], [],
-    [*Treibstoff-Emissions-Faktor*], [], [],
-    [*Rollwiderstandskoeffizient*], [], [],
-    [*Stillstandsverbrauch*], [], [],
-    [*WLTP-Klasse*], [], [],
+    [*Treibstoff*],                 [Elektrisch],   [Diesel],
+    [*Masse*],        [1543 kg],      [1384 kg],
+    [*Luftwiderstandskoeffizient*], [0,32],         [0,27],
+    [*Querschnittsfläche*],         [2,27 m^2],         [2,2 m^2],
+    [*Effizienz*],                  [74 %],          [28 %],
+    [*Treibstoff-Emissions-Faktor*],[-],            [2,37 kg/l],
+    [*Rollwiderstandskoeffizient*], [0,007],        [0,007],
+    [*Stillstandsverbrauch*],       [-],            [0,6 l/h],
 )
 )
+*Hinweis:* Der Effizienzparameter gibt den Wirkungsgrad des Antriebsstrangs an, und ist für eine genaue Abschätzung des Energieverbrauchs erforderlich. Die beiden genannten Werte entsprechen den Standardwerten für Elektro- und Verbrennerfahrzeuge im LCMM-System.
 
-=== Mobile Datenaufzeichnung
 
-Die Datenerhebung für diese Untersuchung wurde mithilfe einer speziell für @lcmm entwickelten mobilen App durchgeführt, die in der Lage ist, detaillierte Fahrdaten im Sekundentakt aufzuzeichnen. Diese App wurde auf Smartphones installiert, welche sowohl im Golf 8 als auch im Mokka E während den Vergleichsfahrten ausgeführt wurde. 
+=== Datenaufzeichnung
 
-Die erfassten Daten umfassen eine Vielzahl von Parametern, die für die Analyse der Energieeffizienz und des Fahrverhaltens von entscheidender Bedeutung sind. Im Folgenden werden die wichtigsten aufgezeichneten Parameter detailliert beschrieben:
+Die Datenerhebung der Fahrten für diese Untersuchung wurde mithilfe einer speziell für @lcmm entwickelten mobilen App durchgeführt, die in der Lage ist, detaillierte Fahrdaten im Sekundentakt aufzuzeichnen. Diese App wurde auf Smartphones installiert, welche sowohl im Golf 8 als auch im Mokka E während den Vergleichsfahrten ausgeführt wurde. 
+
+Die dadurch erfassten Daten umfassen eine Vielzahl von Parametern, die für die Analyse der Energieeffizienz und des Fahrverhaltens von entscheidender Bedeutung sind. Im Folgenden werden die wichtigsten aufgezeichneten Parameter detailliert beschrieben:
 
 #table(
   columns: (20%, 20%, auto),
@@ -67,9 +78,9 @@ Die erfassten Daten umfassen eine Vielzahl von Parametern, die für die Analyse 
     [Die Veränderung der Geschwindigkeit pro Sekunde wird gemessen, um das Beschleunigungs- und Verzögerungsverhalten des Fahrzeugs zu analysieren.]
 )
 
-=== Standardisierung der Testbedingungen
+=== Testbedingungen
 
-Um die Vergleichbarkeit der Fahrdaten sicherzustellen und Verzerrungen durch unterschiedliche Testbedingungen zu vermeiden, wurden folgende Maßnahmen zur Standardisierung ergriffen:
+Um die Vergleichbarkeit der Fahrdaten sicherzustellen und Verzerrungen durch unterschiedliche Testbedingungen zu vermeiden, wurden folgende Testbedingungen festgelegt:
 
 #table(
   columns: (23%, auto),
@@ -81,77 +92,46 @@ Um die Vergleichbarkeit der Fahrdaten sicherzustellen und Verzerrungen durch unt
     [Beide Fahrzeuge starteten und endeten an denselben Orten in Hamburg und folgten einer vordefinierten Route. Dies gewährleistet, dass die Fahrzeuge unter identischen geografischen und verkehrstechnischen Bedingungen getestet wurden.],
   
     [*Zeitfenster*], 
-    [Die Fahrten wurden an zwei aufeinanderfolgenden Werktagen, dem 4. und 5. März 2024, durchgeführt. Die Testfahrten fanden von morgens bis abends statt, um die Auswirkungen unterschiedlicher Tageszeiten und Verkehrsdichten zu berücksichtigen und zu minimieren.],
+    [Die Fahrten wurden an drei aufeinanderfolgenden Werktagen, dem 4. und 6. März 2024, durchgeführt. Die Testfahrten fanden von morgens bis abends statt, um die Auswirkungen unterschiedlicher Tageszeiten und Verkehrsdichten zu berücksichtigen und zu minimieren.],
   
     [*Wetterbedingungen*], 
-    [Die Wetterbedingungen wurden während der Testtage kontinuierlich überwacht. Durch die Auswahl von zwei aufeinanderfolgenden Tagen wurde sichergestellt, dass die Witterungsverhältnisse vergleichbar waren, um externe Einflüsse auf den Fahrwiderstand und den Energieverbrauch zu minimieren.],
+    [Durch die Auswahl von drei aufeinanderfolgenden Tagen wurde sichergestellt, dass die Witterungsverhältnisse vergleichbar waren, um externe Einflüsse auf den Fahrwiderstand und den Energieverbrauch zu minimieren.],
   
     [*Fahrerverhalten*], 
-    [Beide Fahrzeuge wurden parallel und synchronisiert gestartet, um Unterschiede im Fahrerverhalten auszuschließen. Die Fahrer hielten sich an eine vorab festgelegte Fahrweise, die gleichmäßige Beschleunigungs- und Bremsmanöver sowie konstante Geschwindigkeiten auf bestimmten Streckenabschnitten vorsah. Durch diese Standardisierung wurde gewährleistet, dass alle Fahrten unter möglichst identischen Bedingungen durchgeführt wurden.]
+    [Die Fahrer hielten sich an eine vorab festgelegte Fahrweise, die gleichmäßige Beschleunigungs- und Bremsmanöver sowie konstante Geschwindigkeiten auf bestimmten Streckenabschnitten vorsah.]
 )
 
-Um die Zuverlässigkeit und statistische Signifikanz der Ergebnisse zu erhöhen, wurden insgesamt 30 Fahrten pro Fahrzeugtyp (Golf 8 und Mokka E) nahezu parallel durchgeführt, d. h. beide Fahrzeuge sind zum selben Zeitpunkt losgefahren. Diese wiederholten Messungen ermöglichen es, zufällige Schwankungen und Anomalien zu identifizieren und auszuschließen, wodurch die Datenbasis für die nachfolgende Analyse robuster und aussagekräftiger wird.
+Insgesamt wurden während des Testzeitraums 30 Fahrten pro Fahrzeugtyp durchgeführt. Solche wiederholten Messungen können es ermöglichen, zufällige Schwankungen und Anomalien zu identifizieren und auszuschließen, wodurch die Datenbasis für die nachfolgende Analyse robuster und aussagekräftiger wird. (Quelle)
 
-Durch diese detaillierte und systematische Datenerhebung wird eine solide Grundlage geschaffen, um die Energieeffizienz von Elektro- und Verbrennungsfahrzeugen unter realen Fahrbedingungen präzise und zuverlässig zu vergleichen.
+== Datenanalyse
 
-== Analysemethodik
+Die Datenanalyse umfasst mehrere Schritte, um die Hypothesen H1 und H2 zu überprüfen und die Unterschiede zwischen Elektro- und Verbrennerfahrzeugen zu quantifizieren sowie die Abweichungen zwischen den WLTP-Normwerten und den realen Energieverbräuchen zu analysieren. Dies umfasst:
 
-Um aussagekräftige und sinnvolle Ergebnisse bei der Datenanalyse zu erzielen, wird der *Data Science Lifecycle* als Struktur genutzt. Dieser Lifecycle besteht aus mehreren Phasen: Business Understanding, 
-Data Mining, Data Cleaning, Data Exploration, Feature Engineering, Predictive Modeling und Data Visualization. 
-Jede Phase ist entscheidend, um die gesammelten Fahrdaten systematisch zu aggregieren und zu analysieren.
+=== Analyse von Key Performance Indicators
 
-+ *Business Unterstanding*: Der erste Schritt im Data Science Lifecycle ist das Verständnis des 
- Geschäftskontexts und der Ziele der Analyse. In dieser Untersuchung ist das Ziel, die Effizienz und 
- Nachhaltigkeit von Elektrofahrzeugen (EVs) im Vergleich zu Fahrzeugen mit Verbrennungsmotoren (ICEs) 
- zu bewerten. Dies wird durch die Analyse von Fahrdaten realisiert, die in Hamburg aufgezeichnet wurden. 
- 
- Die zentralen Fragestellungen betreffen die Energieeffizienz unter realen Fahrbedingungen und den Vergleich mit den Normwerten des Worldwide Harmonized Light Vehicles Test Procedure (WLTP).
+Die Analyse der Key Performance Indicators (KPIs) ist ein wesentlicher Bestandteil der Untersuchung, um den Energieverbrauch und die Leistungsfähigkeit der Fahrzeuge zu bewerten. Dazu wurden die KPIs Energy Performance Index (EPI) und Acceleration Performance Index (API) berechnet und analysiert, um die Hypothese H1 zu überprüfen. Diese wurden ausgewählt, da sie den Gesamtenergie- und Beschleunigungsverbrauch vergleichbar machen, indem der Verbrauch in kWh pro 100 km pro Tonne gemessen wird @ISO.
 
-+ *Data Mining*: In der Data Mining-Phase werden die Fahrdaten gesammelt und aufbereitet. Für diese 
- Untersuchung wurden Fahrdaten sowohl von einem Elektrofahrzeug (Mokka E) als auch von einem Fahrzeug mit 
- Verbrennungsmotor (Golf 8) in Hamburg erhoben. Die Datenerhebung erfolgte werktags über zwei Tage, wobei 
- jeweils 30 Fahrten pro Fahrzeug aufgezeichnet wurden. Diese Fahrdaten umfassen unter anderem Zeitstempel, 
- geografische Koordinaten, Geschwindigkeit, zurückgelegte Distanz, Höhe, Beschleunigung sowie 
- Kraftstoffverbrauch und CO2-Emissionen.
+=== Statistische Modellierung
 
-+ *Data Cleaning*: Die Datenbereinigung ist ein kritischer Schritt, um die Qualität der Daten sicherzustellen. 
- Hierbei werden Fehler und Inkonsistenzen in den Rohdaten beseitigt. 
- 
- Dies umfasst:
+Um die erhöhte Effizienz der Elektrofahrzeuge zu den Verbrennerfahrzeugen in diesem Testfall zu überprüfen, werden verschiedene Methoden und Modelle der Statistik bzw. im Bereich des Machinie Learning angewendet, um die Fahrdaten zu analysieren und die Hypothesen zu testen.
 
- - Entfernung von Ausreißern: Identifikation und Entfernung von Datenpunkten, die signifikant von der Norm abweichen.
- - Behandlung fehlender Werte: Interpolation oder Entfernung von Datensätzen mit fehlenden Werten.
- - Korrektur fehlerhafter Daten: Überprüfung und Korrektur von Datenpunkten, die durch Messfehler oder andere Anomalien entstanden sind.
+- *Regressionsanalyse:*
+  Lineare und multiple Regression zur Untersuchung der Zusammenhänge zwischen Fahrzeugtyp und Energieverbrauch sowie Beschleunigungsperformance.
+- *ANOVA (Analysis of Variance):*
+	Zur Untersuchung der Unterschiede zwischen den beiden Fahrzeugtypen hinsichtlich des Energieverbrauchs. Dieses statistische Verfahren ermöglicht es, signifikante Unterschiede zu identifizieren und die Hypothesen zu überprüfen.
+- *Random Forests:*
+	Ein weiterer Ensemble-Ansatz, der zur Verbesserung der Vorhersagegenauigkeit und zur Reduzierung von Overfitting eingesetzt wird. Dieses Modell ermöglicht es, die wichtigsten Einflussfaktoren auf den Energieverbrauch zu identifizieren und die Unterschiede zwischen den Fahrzeugtypen zu quantifizieren.
+- *Gradient Boosting Machines (GBM):*
+	Ein Ensemble-Lernverfahren zur Vorhersage des Energieverbrauchs basierend auf den erhobenen Daten. Dadurch können komplexe Zusammenhänge und nichtlineare Effekte berücksichtigt werden und Rückschlüsse auf die Unterschiede zwischen Elektro- und Verbrennerfahrzeugen gezogen werden.
+- *XGBoost:*
+  Ein hochperformantes Gradient Boosting Framework, das für die Modellierung komplexer Zusammenhänge in den Daten verwendet wird. 
 
-+ *Data Exploration*: Nach der Datenbereinigung folgt die Datenexploration, bei der die Daten visuell und 
- statistisch untersucht werden. Ziel ist es, erste Muster und Zusammenhänge in den Daten zu erkennen. 
- 
- Hierbei werden unter anderem Verteilungen, Korrelationen und Zeitreihenanalysen durchgeführt, um ein 
- besseres Verständnis der Daten zu erlangen.
+Durch die detaillierte Anwendung dieser vielen Methoden und Modelle wird eine fundierte und umfassende Analyse der Fahrdaten ermöglicht, die präzise Aussagen über die Energieeffizienz von Elektro- und Verbrennungsfahrzeugen unter realen Bedingungen liefert.
 
-+ *Feature Engineering*: Im Feature Engineering werden neue Merkmale (Features) aus den vorhandenen 
- Daten abgeleitet, die für die Analyse relevant sind. 
- 
- Beispiele für solche Features sind:
+=== Vergleich mit WLTP-Normwerten
 
- -	Durchschnittliche Geschwindigkeit: Berechnung der durchschnittlichen Geschwindigkeit für jede Fahrt.
- -	Beschleunigungsprofile: Analyse der Beschleunigungs- und Verzögerungsmuster.
- -	Energieverbrauch pro Kilometer: Berechnung des Energieverbrauchs pro zurückgelegtem Kilometer.
+Um die Genauigkeit und Praxisnähe der WLTP-Normwerte zu bewerten, werden die realen Energieverbräuche der Fahrzeuge mit den standardisierten WLTP-Werten verglichen. 
 
-+ *Predictive Modeling*: In der Phase des Predictive Modeling werden statistische Modelle erstellt, 
- um Vorhersagen und Analysen durchzuführen. Hierbei werden verschiedene Modellierungsansätze wie 
- Regressionsanalyse, Varianzanalysen oder Hypothesentests verwendet, um signifikante Unterschiede und 
- Zusammenhänge in den Daten zu identifizieren.
-
-+ *Data Visualization*: Abschließend werden die Ergebnisse der Analyse visualisiert, um sie anschaulich 
- darzustellen und leichter interpretieren zu können. Dies umfasst die Erstellung von Diagrammen, Grafiken 
- und Karten, die die wesentlichen Erkenntnisse verdeutlichen. Die Visualisierung unterstützt dabei, die 
- Ergebnisse effektiv zu kommunizieren und die Implikationen für die Nutzung von Elektrofahrzeugen im Alltag 
- zu verstehen.
-
-
-Durch die Anwendung des Data Science Lifecycles auf die Fahrdaten wird eine strukturierte und systematische 
-Analyse ermöglicht, die fundierte und aussagekräftige Ergebnisse liefert.
-
+Dies umfasst einerseits die Einteilung der Fahrdaten in die verschiedenen WLTP-Kategorien wie Stadt, Überland und Autobahn, um die Verbräuche pro Kategorie zu berechnen und zu vergleichen. Andererseits erfolgt die Analyse der prozentualen Abweichungen zwischen den realen und normierten Verbrauchswerten sowie die Darstellung der Muster und Verteilungen der Verbrauchswerte in den verschiedenen Kategorien. Durch diesen Vergleich wird es möglich, die Unterschiede zwischen den realen und normierten Verbrauchswerten zu identifizieren und die Hypothese H2 zu überprüfen.
 
 #pagebreak()
